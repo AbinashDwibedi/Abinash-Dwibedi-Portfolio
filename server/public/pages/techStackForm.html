@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Tech Stack</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin: 10px 0 5px;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        input {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        button {
+            padding: 12px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .error {
+            color: red;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Add New Tech Stack</h1>
+        <form id="techStackForm">
+            <label for="known">Known:</label>
+            <input type="text" id="known" name="known" required />
+
+            <label for="name">Tech Stack Name:</label>
+            <input type="text" id="name" name="name" required />
+
+            <label for="color">Color (Hex code or Name):</label>
+            <input type="text" id="color" name="color" required />
+
+            <button type="submit">Add Tech Stack</button>
+            <div id="error-message" class="error"></div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("techStackForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            // Get form data
+            const known = document.getElementById("known").value;
+            const name = document.getElementById("name").value;
+            const color = document.getElementById("color").value;
+
+            // Prepare the data to be sent
+            const techStackData = {
+                known: known,
+                name: name,
+                color: color,
+            };
+
+            try {
+                // Send the data to the backend using fetch API
+                const response = await fetch(`${window.location.origin}/api/add/addTechstack`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(techStackData),
+                    credentials:"include"
+                });
+
+                // Check if the response is successful
+                if (!response.ok) {
+                    throw new Error('Failed to add tech stack');
+                }
+
+                // If successful, redirect to /home
+                window.location.href = '/home';
+            } catch (error) {
+                // Handle error
+                document.getElementById("error-message").innerText = error.message;
+            }
+        });
+    </script>
+</body>
+</html>

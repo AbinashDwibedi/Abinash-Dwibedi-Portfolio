@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Certificate</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin: 10px 0 5px;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        input[type="text"], input[type="file"], input[type="url"], textarea {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        button {
+            padding: 12px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .error {
+            color: red;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload Certificate</h1>
+        <form id="certificateForm">
+            <label for="title">Certificate Title:</label>
+            <input type="text" id="title" name="title" required />
+
+            <label for="description">Certificate Description:</label>
+            <textarea id="description" name="description" required></textarea>
+
+            <label for="by">Issued By:</label>
+            <input type="text" id="by" name="by" required />
+
+            <label for="image">Certificate Image:</label>
+            <input type="file" id="image" name="image" accept="image/*" required />
+
+            <button type="submit">Upload Certificate</button>
+            <div id="error-message" class="error"></div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("certificateForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData();
+            formData.append("title", document.getElementById("title").value);
+            formData.append("description", document.getElementById("description").value);
+            formData.append("by", document.getElementById("by").value);
+            formData.append("image", document.getElementById("image").files[0]);
+
+            try {
+                const response = await fetch(`${window.location.origin}/api/add/addCertificate`, {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include',  // Add credentials if needed
+                });
+
+                if (response.ok) {
+                    // Redirect to /home after successful upload
+                    window.location.href = '/home';
+                } else {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to upload certificate');
+                }
+            } catch (error) {
+                // Display error message if the upload fails
+                document.getElementById("error-message").innerText = error.message;
+            }
+        });
+    </script>
+</body>
+</html>

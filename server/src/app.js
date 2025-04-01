@@ -32,19 +32,19 @@ import { User } from "./models/User.model.js";
 // }
 // createUser()
 app.get("/",(req,res)=>{
-    res.sendFile(path.join(__dirname,"public/pages/login.html"));
+    res.sendFile(path.join(__dirname,"../public/pages/login.html"));
 })
 app.get("/home",(req,res)=>{
-    res.sendFile(path.join(__dirname,"public/pages/home.html"));
+    res.sendFile(path.join(__dirname,"../public/pages/home.html"));
 })
 app.get("/updateTechStack",(req,res)=>{
-    res.sendFile(path.join(__dirname,"public/pages/techStackForm.html"));
+    res.sendFile(path.join(__dirname,"../public/pages/techStackForm.html"));
 })
 app.get("/updateProject",(req,res)=>{
-    res.sendFile(path.join(__dirname,"public/pages/projectForm.html"));
+    res.sendFile(path.join(__dirname,"../public/pages/projectForm.html"));
 })
 app.get("/updateCertificate",(req,res)=>{
-    res.sendFile(path.join(__dirname,"public/pages/certificateForm.html"));
+    res.sendFile(path.join(__dirname,"../public/pages/certificateForm.html"));
 })
 
 import allRoutes from "./routes/allRoutes.js";

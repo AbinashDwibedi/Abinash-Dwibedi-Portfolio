@@ -28,7 +28,8 @@ import { User } from "./models/User.model.js";
 // }
 // createUser()
 app.get("/",(req,res)=>{
-    res.sendFile(path.resolve("public/pages/login.html"));
+    // res.sendFile(path.resolve("public/pages/login.html"));
+    res.send("hello world")
 })
 app.get("/home",(req,res)=>{
     res.sendFile(path.resolve("public/pages/home.html"));

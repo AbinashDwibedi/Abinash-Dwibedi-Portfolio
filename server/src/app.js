@@ -11,8 +11,12 @@ app.use(cors({
     credentials:true
 }))
 app.use(express.urlencoded({extended:true}));
-app.use(express.static("public"));
+// app.use(express.static("public"));
 
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname, "public")));
 
 import bcrypt from "bcrypt"
 import { User } from "./models/User.model.js";
@@ -28,20 +32,19 @@ import { User } from "./models/User.model.js";
 // }
 // createUser()
 app.get("/",(req,res)=>{
-    // res.sendFile(path.resolve("public/pages/login.html"));
-    res.send("hello world")
+    res.sendFile(path.join(__dirname,"public/pages/login.html"));
 })
 app.get("/home",(req,res)=>{
-    res.sendFile(path.resolve("public/pages/home.html"));
+    res.sendFile(path.join(__dirname,"public/pages/home.html"));
 })
 app.get("/updateTechStack",(req,res)=>{
-    res.sendFile(path.resolve("public/pages/techStackForm.html"));
+    res.sendFile(path.join(__dirname,"public/pages/techStackForm.html"));
 })
 app.get("/updateProject",(req,res)=>{
-    res.sendFile(path.resolve("public/pages/projectForm.html"));
+    res.sendFile(path.join(__dirname,"public/pages/projectForm.html"));
 })
 app.get("/updateCertificate",(req,res)=>{
-    res.sendFile(path.resolve("public/pages/certificateForm.html"));
+    res.sendFile(path.join(__dirname,"public/pages/certificateForm.html"));
 })
 
 import allRoutes from "./routes/allRoutes.js";
